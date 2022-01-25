@@ -2,9 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-const char* ssid = "343max";
-const char* password = "famukismus56";
-const char* hostname = "doorbuzzer";
+#include "config.h"
 
 int ledPin = LED_BUILTIN;
 WiFiServer server(80);
