@@ -31,7 +31,7 @@ void setup() {
   }
   Serial.println("");
   Serial.println("WiFi connected");
-  
+
   // Start the server
   server.begin();
   Serial.println("Server started");
