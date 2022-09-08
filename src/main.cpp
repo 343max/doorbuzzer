@@ -6,9 +6,11 @@
 #include "config.h"
 
 int ledPin = LED_BUILTIN;
+int voltage_analog = A0;
+
 WiFiServer server(80);
 WiFiClient wifiClient;
-HTTPClient sender;
+HTTPClient client;
 
 const int relayPin = D1;
 const long interval = 2000;
@@ -43,8 +45,10 @@ void setup() {
   char *url = NULL;
   asprintf(&url, ping_url_format, WiFi.localIP().toString().c_str(), hostname);
   Serial.println(url);
-  if (sender.begin(wifiClient, url)) {
-    sender.end();
+  if (client.begin(wifiClient, url)) {
+    int status = client.POST("{}");
+    Serial.println(status);
+    client.end();
   }
   free(url);
 
@@ -59,7 +63,7 @@ void setup() {
   Serial.println("/");
 }
 
-void loop() {
+void serverLoop() {
   // Check if a client has connected
 
   WiFiClient client = server.available();
@@ -102,5 +106,30 @@ void loop() {
   delay(1);
   Serial.println("Client disconnected");
   Serial.println("");
+}
 
+int countdown = 0;
+
+void ringerLoop() {
+  if (countdown > 0) {
+    countdown--;
+  } else {
+    int voltage = analogRead(voltage_analog);
+    if (voltage >= 12) {
+      countdown = 2000;
+      Serial.println("ring!");
+      if (client.begin(wifiClient, ringer_url)) {
+        int status = client.POST("{}");
+        Serial.println(status);
+        client.end();
+      }
+    }
+  }
+}
+
+void loop() {
+  delay(1);
+
+  serverLoop();
+  ringerLoop();
 }
