@@ -108,15 +108,16 @@ void serverLoop() {
   Serial.println("");
 }
 
-int countdown = 0;
+int throttleCountdown = 0;
 
 void ringerLoop() {
-  if (countdown > 0) {
-    countdown--;
+  // only post every 2 seconds
+  if (throttleCountdown > 0) {
+    throttleCountdown--;
   } else {
     int voltage = analogRead(voltage_analog);
     if (voltage >= 12) {
-      countdown = 2000;
+      throttleCountdown = 2000;
       Serial.println("ring!");
       if (client.begin(wifiClient, ringer_url)) {
         int status = client.POST("{}");
