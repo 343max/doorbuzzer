@@ -111,11 +111,11 @@ void serverLoop() {
 int countdown = 0;
 
 void ringerLoop() {
-  int voltage = analogRead(voltage_analog);
   if (countdown > 0) {
     countdown--;
   } else {
-    if (voltage >= 200) {
+    int voltage = analogRead(voltage_analog);
+    if (voltage >= 12) {
       countdown = 2000;
       Serial.println("ring!");
       if (client.begin(wifiClient, ringer_url)) {
@@ -123,7 +123,6 @@ void ringerLoop() {
         Serial.println(status);
         client.end();
       }
-
     }
   }
 }
