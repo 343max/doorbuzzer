@@ -57,7 +57,7 @@ void setup() {
   Serial.println("Server started");
 
   // Print the IP address
-  Serial.print("Use this URL : ");
+  Serial.print("Use this URL: ");
   Serial.print("http://");
   Serial.print(WiFi.localIP());
   Serial.println("/");
@@ -116,12 +116,12 @@ void ringerLoop() {
     throttleCountdown--;
   } else {
     int voltage = analogRead(voltage_analog);
-    if (voltage >= 12) {
+    Serial.println(voltage);
+    if (voltage >= 1200) { // 12
       throttleCountdown = 2000;
       Serial.println("ring!");
       if (client.begin(wifiClient, ringer_url)) {
-        int status = client.POST("{}");
-        Serial.println(status);
+        client.POST("{}");
         client.end();
       }
     }
