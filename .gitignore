@@ -4,5 +4,7 @@
 .vscode/launch.json
 .vscode/ipch
 
+get-platformio.py
+
 src/config.h
 .DS_Store

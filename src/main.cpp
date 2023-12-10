@@ -116,7 +116,7 @@ void ringerLoop() {
     throttleCountdown--;
   } else {
     int voltage = analogRead(voltage_analog);
-    Serial.println(voltage);
+    // Serial.println(voltage);
     if (voltage >= 1200) { // 12
       throttleCountdown = 2000;
       Serial.println("ring!");
