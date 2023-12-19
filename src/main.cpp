@@ -149,10 +149,11 @@ void ringerLoop() {
     throttleCountdown--;
   } else {
     int voltage = analogRead(voltage_analog);
-    if (voltage >= 1200) { // 12
+
+    if (voltage >= 800) {
       throttleCountdown = 2000;
-      Serial.println("");
-      Serial.println("ring");
+      serial_commands_.GetSerial()->println("");
+      serial_commands_.GetSerial()->println("ring");
       if (client.begin(wifiClient, ringer_url)) {
         client.POST("{}");
         client.end();
